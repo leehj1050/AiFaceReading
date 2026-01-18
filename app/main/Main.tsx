@@ -1,38 +1,60 @@
 'use client'
 
+import { useFaceImageStore } from "@/store/useFaceImageStore";
 import ImageUpload from "../component/imgUpload_Camera/ImageUpload";
 
 
 const Main = () => {
+    const { previewUrl, resetImage } = useFaceImageStore();
+
     return (
         <section className="flex flex-col items-center gap-8 text-[#1C1C1C]">
+            {/* Face Input */}
 
             {/* Face Input */}
-            <div className="w-52 h-52 rounded-full border border-black/10 flex items-center justify-center bg-white shadow-sm">
-                <ImageUpload onSelect={(img) => console.log(img)} />
+            <div className="relative w-52 h-52 rounded-full border border-black/30 bg-gray-50 shadow-sm overflow-hidden flex items-center justify-center">
+                {previewUrl ? (
+                    <div className="relative w-full h-full">
+                        <img
+                            src={previewUrl}
+                            alt="선택된 얼굴 이미지"
+                            className="w-full h-full object-cover rounded-full"
+                        />
+
+                        <button
+                            onClick={resetImage}
+                            className="
+                            absolute bottom-2 left-1/2 -translate-x-1/2
+                            bg-black/70 text-white
+                            text-xs px-3 py-1.5
+                            rounded-full
+                            shadow  
+                            "
+                        >
+                            변경
+                        </button>
+                    </div>
+                ) : (
+                    <ImageUpload />
+                )}
+            </div>
+
+            <div className="text-center">
+                <p className="text-sm text-[#969696]">* 분석에 사용된 사진은 저장되지않습니다.</p>
             </div>
 
             {/* Action Button */}
             <button
-                className="
-          w-full py-4 rounded-xl
-          bg-[#1C1C1C] text-white
-          font-semibold tracking-wide
-          active:scale-[0.98] transition
-        "
+                className={`w-full py-4 rounded-xl font-semibold tracking-wide transition-all 
+                    ${!previewUrl
+                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        : "bg-[#1C1C1C] text-white active:scale-[0.98]"
+                    }`}
+                disabled={!previewUrl ? true : false}
+                onClick={() => console.log("관상 분석 시작")}
             >
                 관상 분석 시작하기
             </button>
-
-            {/* Result Preview Card */}
-            <div className="w-full bg-white rounded-2xl p-5 shadow-sm border border-black/5">
-                <h3 className="text-base font-semibold mb-2">
-                    성격 요약
-                </h3>
-                <p className="text-sm text-[#6B6B6B] leading-relaxed">
-                    신중하고 분석적인 성향이 강하며, 책임감이 뛰어난 편입니다.
-                </p>
-            </div>
 
         </section>
     );

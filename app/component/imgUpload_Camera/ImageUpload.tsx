@@ -1,15 +1,15 @@
-const ImageUpload = ({ onSelect }: { onSelect: (img: string) => void }) => {
+import { useFaceImageStore } from "@/store/useFaceImageStore";
+
+const ImageUpload = () => {
+    const { setImage } = useFaceImageStore();
+
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            onSelect(reader.result as string);
-        };
-        reader.readAsDataURL(file);
+        const previewUrl = URL.createObjectURL(file);
+        setImage(file, previewUrl);
     };
-
     return (
         <label className="upload-box">
             <input

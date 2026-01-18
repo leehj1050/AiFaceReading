@@ -18,9 +18,28 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="max-w-[500px] w-full px-5 py-4 text-xs text-[#8A8A8A] bg-white border-t border-gray-200">
-        © 2026 AI Face Reading
+      <footer className="max-w-[500px] w-full px-5 py-4 text-xs text-[#8A8A8A] bg-white border-t border-black/10">
+        <div className="flex flex-col gap-2">
+          <p>
+            © 2026 AI Face Reading. All rights reserved.
+          </p>
+
+          <p>
+            본 서비스는 재미와 참고용으로 제공되며, 실제 판단의 근거로 사용될 수 없습니다.
+          </p>
+
+          <p>
+            문의:
+            <a
+              href="mailto:hj10150@gmail.com"
+              className="text-[#6B6B6B] underline "
+            >
+              hj10150@gmail.com
+            </a>
+          </p>
+        </div>
       </footer>
+
     </div>
   );
 }
