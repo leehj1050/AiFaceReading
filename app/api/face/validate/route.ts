@@ -12,19 +12,33 @@ const client = new RekognitionClient({
   },
 });
 
-export const POST = async (req: Request) =>{
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+
+export const POST = async (req: Request) => {
   try {
     const formData = await req.formData();
     const file = formData.get("image") as File;
 
     if (!file) {
       return NextResponse.json(
-        { error: "이미지가 없습니다." },
+        { success: false, reason: "NO_IMAGE" },
         { status: 400 }
       );
     }
 
     const bytes = Buffer.from(await file.arrayBuffer());
+
+    // ✅ 1. 이미지 용량 사전 체크
+    if (bytes.length > MAX_IMAGE_SIZE) {
+      return NextResponse.json(
+        {
+          success: false,
+          reason: "IMAGE_TOO_LARGE",
+          maxSizeMB: 5,
+        },
+        { status: 413 } // Payload Too Large
+      );
+    }
 
     const command = new DetectFacesCommand({
       Image: { Bytes: bytes },
@@ -52,11 +66,28 @@ export const POST = async (req: Request) =>{
       success: true,
       faceCount: 1,
     });
-  } catch (err) {
-    console.error(err);
+
+  } catch (err: any) {
+    console.error("Rekognition error:", err);
+
+    // ✅ 2. AWS ValidationException 방어 (혹시 사전 체크 못한 경우)
+    if (err.name === "ValidationException") {
+      return NextResponse.json(
+        {
+          success: false,
+          reason: "IMAGE_TOO_LARGE",
+          maxSizeMB: 5,
+        },
+        { status: 413 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "얼굴 분석 실패" },
+      {
+        success: false,
+        reason: "UNKNOWN_ERROR",
+      },
       { status: 500 }
     );
   }
-}
+};

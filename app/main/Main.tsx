@@ -3,47 +3,10 @@
 import { useFaceImageStore } from "@/store/useFaceImageStore";
 import ImageUpload from "../component/imgUpload_Camera/ImageUpload";
 import Button from "../component/button/Button";
-import { useEffect } from "react";
 
 
 const Main = () => {
-    const { file, previewUrl, validation, setValidation, resetImage } = useFaceImageStore();
-
-    useEffect(() => {
-        handleFaceAnalyze()
-    }, [file, previewUrl])
-
-    // 얼굴 분석 핸들러
-    const handleFaceAnalyze = async () => {
-        if (!file || !previewUrl) return;
-
-        try {
-            setValidation("face-validating");
-
-            const formData = new FormData();
-            formData.append("image", file);
-
-            const res = await fetch("/api/face/validate", {
-                method: "POST",
-                body: formData,
-            });
-
-            const data = await res.json();
-
-            if (!data.success) {
-                if (data.reason === "NO_FACE") setValidation("no-face");
-                if (data.reason === "MULTIPLE_FACES") setValidation("multiple-faces");
-                return;
-            }
-
-            setValidation("valid");
-
-            console.log("✅ 얼굴 검증 통과 → 관상 분석 진행");
-        } catch {
-            setValidation("error");
-        }
-    };
-
+    const { previewUrl, validation, resetImage } = useFaceImageStore();
 
     return (
         <section className="flex flex-col items-center gap-8 text-[#1C1C1C]">
@@ -91,6 +54,18 @@ const Main = () => {
             {validation === "multiple-faces" && (
                 <p className="text-sm text-red-500 text-center">
                     한 명의 얼굴만 포함된 사진을 업로드해 주세요.
+                </p>
+            )}
+
+            {validation === "image-too-large" && (
+                <p className="text-sm text-red-500 text-center">
+                    사진용량이 5MB를 초과했습니다. 용량을 줄여 다시 업로드해 주세요.
+                </p>
+            )}
+
+            {validation === "error" && (
+                <p className="text-sm text-red-500 text-center">
+                    오류가 발생했습니다. 잠시 후 다시 시도해 주세요.
                 </p>
             )}
 

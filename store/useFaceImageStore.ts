@@ -6,6 +6,7 @@ type FaceValidation =
   | "ai-analyzing"
   | "no-face"
   | "multiple-faces"
+  | "image-too-large"
   | "valid"
   | "error";
 
