@@ -3,19 +3,22 @@
 import { useFaceImageStore } from "@/store/useFaceImageStore";
 import ImageUpload from "../component/imgUpload_Camera/ImageUpload";
 import Button from "../component/button/Button";
+import { useEffect } from "react";
 
 
 const Main = () => {
     const { file, previewUrl, validation, setValidation, resetImage } = useFaceImageStore();
 
-    console.log("현재 상태:", { file, previewUrl });
+    useEffect(() => {
+        handleFaceAnalyze()
+    }, [file, previewUrl])
 
     // 얼굴 분석 핸들러
-    const handleAnalyze = async () => {
-        if (!file) return;
+    const handleFaceAnalyze = async () => {
+        if (!file || !previewUrl) return;
 
         try {
-            setValidation("validating");
+            setValidation("face-validating");
 
             const formData = new FormData();
             formData.append("image", file);

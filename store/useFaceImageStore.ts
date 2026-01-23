@@ -1,8 +1,9 @@
 import { create } from "zustand";
 
 type FaceValidation =
-  | "idle"
-  | "validating"
+  | "default"
+  | "face-validating"
+  | "ai-analyzing"
   | "no-face"
   | "multiple-faces"
   | "valid"
@@ -22,10 +23,10 @@ type FaceState = {
 export const useFaceImageStore = create<FaceState>((set) => ({
   file: null,
   previewUrl: null,
-  validation: "idle",
+  validation: "default",
 
   setImage: (file, previewUrl) =>
-    set({ file, previewUrl, validation: "idle" }),
+    set({ file, previewUrl, validation: "default" }),
 
   setValidation: (validation) =>
     set({ validation }),
@@ -34,6 +35,6 @@ export const useFaceImageStore = create<FaceState>((set) => ({
     set({
       file: null,
       previewUrl: null,
-      validation: "idle",
+      validation: "default",
   }),
 }));
