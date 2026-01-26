@@ -8,8 +8,9 @@ const Button = () => {
     const { handleAnalyze } = Analyze()
     const { resetAnalysis } = useFaceAnalysisStore();
 
-
     const enabledStates = ["ready-to-analyze", "valid"];
+    const errorStates = ["no-face", "multiple-faces", "image-too-large", "error"];
+
     const handleButtonClick = () => {
         switch (validation) {
             case "ready-to-analyze":
@@ -43,6 +44,7 @@ const Button = () => {
                 {validation === "face-validating" && "얼굴 분석중.."}
                 {validation === "ai-analyzing" && "관상 분석중.."}
                 {validation === "valid" && "처음으로"}
+                {errorStates.includes(validation) && "사진을 변경해주세요."}
             </button>
         </>
 
