@@ -1,11 +1,18 @@
+import { Noto_Sans_KR } from "next/font/google";
 import Main from "./main/Main";
+
+const font = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center bg-[#F6F5F1] text-[#1C1C1C]">
       {/* Header */}
       <header className="max-w-[500px] w-full px-4 py-6 bg-white flex flex-col items-center">
-        <h1 className="text-3xl font-serif tracking-widest">
+        <h1 className={`${font.className} text-3xl font-serif tracking-widest`}>
           AI 관상 분석
         </h1>
         <p className="text-[#6B6B6B] mt-2 text-sm">
@@ -13,7 +20,7 @@ export default function Home() {
         </p>
       </header>
 
-      <main className="max-w-[500px] w-full flex-1 px-4 py-6 bg-white ">
+      <main className="max-w-[500px] w-full flex-1 px-4 py-6 bg-white flex flex-col">
         <Main />
       </main>
 

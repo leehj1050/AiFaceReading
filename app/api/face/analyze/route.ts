@@ -28,9 +28,9 @@ export async function POST(req: Request) {
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini", // Vision 지원
       messages: [
-        {
-      role: "system",
-      content: `
+       {
+          role: "system",
+          content: `
         너는 전통 동양 관상학 이론을 설명하는 AI다.
 
         [해석 원칙]
@@ -82,6 +82,7 @@ export async function POST(req: Request) {
           }
         ]
       }
+
     ],
     max_tokens: 600,
   });

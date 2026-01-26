@@ -1,7 +1,7 @@
 import { useFaceImageStore } from "@/store/useFaceImageStore";
 
 const ImageUpload = () => {
-    const { setImage } = useFaceImageStore();
+    const { setImage, setValidation } = useFaceImageStore();
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -9,6 +9,7 @@ const ImageUpload = () => {
 
         const previewUrl = URL.createObjectURL(file);
         setImage(file, previewUrl);
+        setValidation("ready-to-analyze");
     };
     return (
         <label className="w-full h-full rounded-full flex justify-center items-center ">

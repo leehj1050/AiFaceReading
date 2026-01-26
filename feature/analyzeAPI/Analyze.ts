@@ -1,7 +1,5 @@
 import { useFaceImageStore } from '@/store/useFaceImageStore';
 import { useFaceAnalysisStore } from '@/store/useResultDataStore';
-import { buildAnalyzeData } from './formatData';
-
 
 export const Analyze = () => {
     const { file, previewUrl, setValidation } = useFaceImageStore();
@@ -61,6 +59,7 @@ export const Analyze = () => {
         // 분석 결과 저장
         const analysisResult = JSON.parse(data.result);
         setAnalysis(analysisResult);
+        setValidation("valid"); // 분석 완료 상태로 변경
 
     };
 

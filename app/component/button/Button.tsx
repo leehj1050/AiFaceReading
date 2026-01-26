@@ -1,30 +1,48 @@
 import { Analyze } from '@/feature/analyzeAPI/Analyze';
 import { useFaceImageStore } from '@/store/useFaceImageStore';
-import React, { useEffect, useState } from 'react'
+import { useFaceAnalysisStore } from '@/store/useResultDataStore';
 
 {/* Action Button */ }
 const Button = () => {
-    const { file, validation, setValidation } = useFaceImageStore();
+    const { validation, resetImage } = useFaceImageStore();
     const { handleAnalyze } = Analyze()
+    const { resetAnalysis } = useFaceAnalysisStore();
 
-    useEffect(() => {
-        if (!file) return
-        setValidation("face-validating")
-    }, [file])
+
+    const enabledStates = ["ready-to-analyze", "valid"];
+    const handleButtonClick = () => {
+        switch (validation) {
+            case "ready-to-analyze":
+                handleAnalyze();
+                break;
+
+            case "valid":
+                resetImage();
+                resetAnalysis();
+                break;
+
+            default:
+                return;
+        }
+    };
+
 
     return (
         <>
             <button
                 className={`w-full py-4 rounded-xl font-semibold tracking-wide transition-all 
-                    ${validation === "default"
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-[#1C1C1C] text-white active:scale-[0.98]"
+                        ${enabledStates.includes(validation)
+                        ? "bg-[#1C1C1C] text-white active:scale-[0.98]"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
                     }`}
-                disabled={validation === "default" ? true : false}
-                onClick={handleAnalyze}
+                disabled={!enabledStates.includes(validation)}
+                onClick={handleButtonClick}
             >
-                {validation === "default"
-                    ? "사진을 업로드해주세요" : "관상 분석하기"}
+                {validation === "default" && "사진을 업로드해주세요"}
+                {validation === "ready-to-analyze" && "관상 분석하기"}
+                {validation === "face-validating" && "얼굴 분석중.."}
+                {validation === "ai-analyzing" && "관상 분석중.."}
+                {validation === "valid" && "처음으로"}
             </button>
         </>
 

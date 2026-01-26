@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 type FaceValidation =
   | "default"
+  | "ready-to-analyze"
   | "face-validating"
   | "ai-analyzing"
   | "no-face"
