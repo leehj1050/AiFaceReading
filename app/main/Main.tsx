@@ -3,40 +3,48 @@
 import { useFaceImageStore } from "@/store/useFaceImageStore";
 import ImageUpload from "../component/imgUpload_Camera/ImageUpload";
 import Button from "../component/button/Button";
+import { useFaceAnalysisStore } from "@/store/useResultDataStore";
+import AnalysisCard from "../component/analysisCard/AnalysisCard";
 
 
 const Main = () => {
     const { previewUrl, validation, resetImage } = useFaceImageStore();
+    const { analysis } = useFaceAnalysisStore();
 
     return (
         <section className="flex flex-col items-center gap-8 text-[#1C1C1C]">
             {/* Face Input */}
-            <div className="relative w-52 h-52 rounded-full border border-black/30 bg-gray-50 shadow-sm overflow-hidden flex items-center justify-center">
-                {previewUrl ? (
-                    <div className="relative w-full h-full">
-                        <img
-                            src={previewUrl}
-                            alt="선택된 얼굴 이미지"
-                            className="w-full h-full object-cover rounded-full"
-                        />
+            {
+                !analysis ? <div className="relative w-52 h-52 rounded-full border border-black/30 bg-gray-50 shadow-sm overflow-hidden flex items-center justify-center">
+                    {previewUrl ? (
+                        <div className="relative w-full h-full">
+                            <img
+                                src={previewUrl}
+                                alt="선택된 얼굴 이미지"
+                                className="w-full h-full object-cover rounded-full"
+                            />
 
-                        <button
-                            onClick={resetImage}
-                            className="
+                            <button
+                                onClick={resetImage}
+                                className="
                             absolute bottom-2 left-1/2 -translate-x-1/2
                             bg-black/70 text-white
                             text-xs px-3 py-1.5
                             rounded-full
                             shadow  
                             "
-                        >
-                            변경
-                        </button>
-                    </div>
-                ) : (
-                    <ImageUpload />
-                )}
-            </div>
+                            >
+                                변경
+                            </button>
+                        </div>
+                    ) : (
+                        <ImageUpload />
+                    )}
+                </div>
+                    :
+
+                    <AnalysisCard data={analysis} />
+            }
 
             <div className="text-center">
                 <p className="text-sm text-[#969696]">* 분석에 사용된 사진은 저장되지 않습니다.</p>

@@ -1,9 +1,11 @@
 import { useFaceImageStore } from '@/store/useFaceImageStore';
-import React, { useState } from 'react'
+import { useFaceAnalysisStore } from '@/store/useResultDataStore';
+import { buildAnalyzeData } from './formatData';
+
 
 export const Analyze = () => {
     const { file, previewUrl, setValidation } = useFaceImageStore();
-    const [resultAnalysis, setResultAnalysis] = useState<any>(null);
+    const {setAnalysis} = useFaceAnalysisStore()
     
   // 얼굴 분석 핸들러
     const handleAnalyze = async () => {
@@ -56,10 +58,11 @@ export const Analyze = () => {
             setValidation("error")
         }
 
-        // 분석 결과 저장 (store로 빼야함)
-        setResultAnalysis(data.result);
-        console.log('data >>> ' , data.result)
+        // 분석 결과 저장
+        const analysisResult = JSON.parse(data.result);
+        setAnalysis(analysisResult);
+
     };
 
-    return {handleAnalyze, resultAnalysis}
+    return {handleAnalyze}
 }
