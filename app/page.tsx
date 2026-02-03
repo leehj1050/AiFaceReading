@@ -9,7 +9,7 @@ const font = Noto_Sans_KR({
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center bg-[#F6F5F1] text-[#1C1C1C]">
+    <div className="min-h-screen flex flex-col items-center bg-[#f5f5f5] text-[#1C1C1C]">
       {/* Header */}
       <header className="max-w-[500px] w-full px-4 py-6 bg-white flex flex-col items-center">
         <h1 className={`${font.className} text-3xl font-serif tracking-widest`}>
