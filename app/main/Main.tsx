@@ -12,7 +12,7 @@ const Main = () => {
     const { analysis } = useFaceAnalysisStore();
 
     return (
-        <section className="flex flex-col items-center gap-8 text-[#1C1C1C] flex-1">
+        <section className="flex flex-col items-center gap-8 text-[#1C1C1C] flex-1 ">
             {/* Face Input */}
             {
                 analysis ? (

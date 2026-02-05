@@ -1,4 +1,5 @@
 import { useFaceImageStore } from "@/store/useFaceImageStore";
+import { MdAddAPhoto } from "react-icons/md";
 
 const ImageUpload = () => {
     const { setImage, setValidation } = useFaceImageStore();
@@ -12,7 +13,7 @@ const ImageUpload = () => {
         setValidation("ready-to-analyze");
     };
     return (
-        <label className="w-full h-full rounded-full flex justify-center items-center ">
+        <label className="w-full h-full rounded-full flex justify-center items-center">
             <input
                 type="file"
                 accept="image/*"
@@ -20,7 +21,10 @@ const ImageUpload = () => {
                 hidden
                 onChange={handleFile}
             />
-            <p>정면 사진 찍기</p>
+            <div className="flex flex-col items-center gap-1">
+                <MdAddAPhoto className="text-2xl" />
+                <p className="font-semibold text-sm">정면 사진 찍기</p>
+            </div>
         </label>
     );
 };
