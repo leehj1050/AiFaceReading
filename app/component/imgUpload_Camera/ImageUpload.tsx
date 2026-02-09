@@ -17,7 +17,7 @@ const ImageUpload = () => {
             <input
                 type="file"
                 accept="image/*"
-                capture="environment" // 모바일에서 카메라 바로 실행
+                // capture="environment" // 모바일에서 카메라 바로 실행
                 hidden
                 onChange={handleFile}
             />
