@@ -38,7 +38,7 @@ export const Analyze = () => {
         }
     };
 
-    // 얼굴 분석 핸들러
+    // 얼굴 분석 결과 핸들러
     const getFaceAnalysis = async () => {
         if (!file) return;
 
